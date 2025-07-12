@@ -54,6 +54,8 @@ def mode(scores: list[float] | list[str]):
 
 def varince(scores: list[float]):
 
+    if len(scores) < 2: return 0
+
     # find mean
     m = mean(scores)
     # sum of squared deviation scores
@@ -64,6 +66,7 @@ def varince(scores: list[float]):
         ss += deviation**2
 
     v = round(ss/(len(scores)-1), 2)
+    # NOTE: using n-1 division
     return v
 
 
