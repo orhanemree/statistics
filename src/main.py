@@ -1,3 +1,6 @@
+import math
+
+
 def frequency(scores: list[float] | list[str]):
 
     # create frequency table
@@ -6,6 +9,8 @@ def frequency(scores: list[float] | list[str]):
     table = sorted(table, key=lambda i: i[0])
     return table
 
+
+# central tendency
 
 def mean(scores: list[float]):
     
@@ -43,3 +48,27 @@ def mode(scores: list[float] | list[str]):
     if table[-1][1] == table[-2][1]: return None
     # return mode
     return table[-1]
+
+
+# variability
+
+def varince(scores: list[float]):
+
+    # find mean
+    m = mean(scores)
+    # sum of squared deviation scores
+    ss = 0
+
+    for s in scores:
+        deviation = m-s
+        ss += deviation**2
+
+    v = round(ss/(len(scores)-1), 2)
+    return v
+
+
+def standard_deviation(scores: list[float]):
+
+    # calculate variance
+    v = varince(scores)
+    return round(math.sqrt(v), 2)
