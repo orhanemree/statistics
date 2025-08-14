@@ -1,94 +1,77 @@
-// @ts-nocheck
+export interface Variable {
+    key: string,
+    value: number
+}
+
 export class Person {
-    
-    constructor(name) {
+    name: string;
+    variables: Variable | {};
+
+    constructor(name: string) {
         this.name = name;
         this.variables = {};
     }
 
-    set_variable = (key, value) => {
+    set_variable = (key: string, value: number) => {
         this.variables[key] = value;
     }
 }
 
-
 export class Sample {
+    name: string
+    people: Array<Person>
 
-    constructor(name) {
+    constructor(name: string) {
         this.name = name;
         this.people = [];
     }
 
-    set_person = (person) => {
+    add_person = (person: Person) => {
         this.people.push(person);
     }
 
-    // get_mean = (variable="") => {
-    //     if (this.people.length < 1) return 0;
-    //     if (variable !== "") {
-    //         // get mean of particular variable
-    //         let sum = 0;
-    //         for (const p of this.people) {
-    //             sum += p.variables[variable];
-    //         }
-    //         return sum/this.people.length;
-    //     }
-    //     // get means of all variables
-    //     // assuming all people have same number of variables
-    //     const means = {};
-    //     for (const v of this.people[0].variables) {
-    //         // get mean of particular variable
-    //         let sum = 0;
-    //         for (const p of this.people) {
-    //             sum += p.variables[v];
-    //         }
-    //         means[v] = sum/this.people.length;
-    //     }
-    //     return means;
-    // }
-
-    get_mean = (variable) => {
+    get_mean = (variable_key: string) => {
         // get mean of a particular variable
         let sum = 0;
         for (const p of this.people) {
-            sum += p.variables[variable];
+            sum += p.variables[variable_key];
         }
         return sum/this.people.length;
     }
 
-    get_variance = (variable) => {
+    get_variance = (variable_key: string) => {
         // get variance of a particular variable
-        const mean = this.get_mean(variable);
+        const mean = this.get_mean(variable_key);
         let ss = 0;
         for (const p of this.people) {
             // calculate deviation
-            const dev = p.variables[variable]-mean;
+            const dev = p.variables[variable_key]-mean;
             ss += dev*dev;
         }
         return ss/this.people.length;
     }
 
-    get_standard_deviation = (variable) => {
+    get_standard_deviation = (variable_key: string) => {
         // get standard deviation of a particular variable
-        const variance = this.get_variance(variable);
+        const variance = this.get_variance(variable_key);
         return Math.sqrt(variance);
     }
 
-    get_scores = (variable) => {
+    get_scores = (variable_key: string) => {
         // get scores list of a particular variable
-        const scores = [];
+        const scores: Array<number> = [];
         for (const p of this.people) {
-            scores.push(p.variables[variable]);
+            scores.push(p.variables[variable_key]);
         }
         return scores;
     }
 
-    get_z_scores = (variable) => {
+    get_z_scores = (variable_key: string) => {
         // get x scores list of raw scores of a particular variable
-        const scores = this.get_scores(variable);
-        const z_scores = [];
-        const mean = this.get_mean(variable);
-        const sdev = this.get_standard_deviation(variable);
+        const scores = this.get_scores(variable_key);
+        const z_scores: Array<number> = [];
+        const mean = this.get_mean(variable_key);
+        const sdev = this.get_standard_deviation(variable_key);
         for (const s of scores) {
             if (sdev == 0) {
                 // 0 is preferred over NaN
@@ -104,14 +87,15 @@ export class Sample {
 
 
 export class Correlation {
+    sample: Sample
 
-    constructor(sample) {
+    constructor(sample: Sample) {
         this.sample = sample;
     }
 
-    get_coefficient = (x, y) => {
-        const xz = this.sample.get_z_scores(x);
-        const yz = this.sample.get_z_scores(y);
+    get_coefficient = (x_key: string, y_key: string) => {
+        const xz = this.sample.get_z_scores(x_key);
+        const yz = this.sample.get_z_scores(y_key);
         const len = xz.length;
 
         let sum = 0;

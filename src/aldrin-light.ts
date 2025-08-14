@@ -1,4 +1,4 @@
-const aldrin_light_env = {
+export const aldrin_light_env = {
     round: Math.round,
     sqrt: Math.sqrt,
     pow: Math.pow
@@ -15,13 +15,12 @@ export interface Aldrin_Light_Exports {
     aldrin_fill_triangle: (ac: Aldrin_Canvas, x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, color: number) => void;
     aldrin_draw_ellipse: (ac: Aldrin_Canvas, x: number, y: number, r0: number, r1: number, color: number) => void;
     aldrin_fill_ellipse: (ac: Aldrin_Canvas, x: number, y: number, r0: number, r1: number, color: number) => void;
-    aldrin_get_pixels: (ac: Aldrin_Canvas, ) => number;
-    aldrin_get_width: (ac: Aldrin_Canvas, ) => number;
-    aldrin_get_height: (ac: Aldrin_Canvas, ) => number;
+    aldrin_get_pixels: (ac: Aldrin_Canvas) => number;
+    aldrin_get_width: (ac: Aldrin_Canvas) => number;
+    aldrin_get_height: (ac: Aldrin_Canvas) => number;
 }
 
 export class Aldrin_Light {
-
     wasm: WebAssembly.WebAssemblyInstantiatedSource;
     exports_: Aldrin_Light_Exports;
     ac: Aldrin_Canvas;
