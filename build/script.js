@@ -1,5 +1,5 @@
 import { Aldrin_Light } from "./aldrin-light.js";
-import { Person, Sample, Correlation } from "./stats.js";
+import { Person, Sample, Correlation, Regression } from "./stats.js";
 const WIDTH = 200;
 const HEIGHT = 200;
 // canvas setup
@@ -21,7 +21,9 @@ const clear = () => {
 // statistics setup
 const sample = new Sample("sample");
 const correlation = new Correlation(sample);
-const pearson_r_div = document.querySelector("div#pearson_r");
+const pearson_r_div = document.querySelector("div#pearson-r");
+const regression = new Regression(sample);
+const regression_line_div = document.querySelector("div#regression-line");
 let n = 0;
 canvas.onclick = (e) => {
     // get person scores
@@ -34,7 +36,10 @@ canvas.onclick = (e) => {
     sample.add_person(person);
     // calculate correlation coefficient
     const pearson_r = correlation.get_coefficient("x", "y");
-    pearson_r_div.innerText = `Pearson's r = ${(Math.round(pearson_r * 100) / 100)}`;
+    pearson_r_div.innerText = `Pearson's r = ${pearson_r}`;
+    // calculate regression line y=m*x+c and two coordinates on the canvas
+    const { m, c } = regression.get_line("x", "y");
+    regression_line_div.innerText = `Regression line: Y=${m}X+${c}`;
     // draw on canvas and display
     clear();
     for (const p of sample.people) {
@@ -44,5 +49,6 @@ canvas.onclick = (e) => {
     aldrin_light.draw_line(x_mean, 0, x_mean, 199, 0x00cc00);
     const y_mean = sample.get_mean("y");
     aldrin_light.draw_line(0, y_mean, 199, y_mean, 0x00cc00);
+    aldrin_light.draw_line_from_equation(m, c, 0xcc00000);
     aldrin_light.display_canvas();
 };

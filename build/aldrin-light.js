@@ -25,6 +25,9 @@ export class Aldrin_Light {
         this.draw_line = (x0, y0, x1, y1, color) => {
             return this.exports_.aldrin_draw_line(this.ac, x0, y0, x1, y1, color);
         };
+        this.draw_line_from_equation = (m, c, color) => {
+            return this.exports_.aldrin_draw_line_from_equation(this.ac, m, c, color);
+        };
         this.fill_triangle = (x0, y0, x1, y1, x2, y2, color) => {
             return this.exports_.aldrin_fill_triangle(this.ac, x0, y0, x1, y1, x2, y2, color);
         };

@@ -12,6 +12,7 @@ export interface Aldrin_Light_Exports {
     aldrin_put_pixel: (ac: Aldrin_Canvas, x: number, y: number, color: number) => void;
     aldrin_fill: (ac: Aldrin_Canvas, color: number) => void;
     aldrin_draw_line: (ac: Aldrin_Canvas, x0: number, y0: number, x1: number, y1: number, color: number) => void;
+    aldrin_draw_line_from_equation: (ac: Aldrin_Canvas, m: number, c: number, color: number) => void;
     aldrin_fill_triangle: (ac: Aldrin_Canvas, x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, color: number) => void;
     aldrin_draw_ellipse: (ac: Aldrin_Canvas, x: number, y: number, r0: number, r1: number, color: number) => void;
     aldrin_fill_ellipse: (ac: Aldrin_Canvas, x: number, y: number, r0: number, r1: number, color: number) => void;
@@ -54,6 +55,10 @@ export class Aldrin_Light {
 
     draw_line = (x0: number, y0: number, x1: number, y1: number, color: number) => {
         return this.exports_.aldrin_draw_line(this.ac, x0, y0, x1, y1, color);
+    }
+
+    draw_line_from_equation = (m: number, c: number, color: number) => {
+        return this.exports_.aldrin_draw_line_from_equation(this.ac, m, c, color);
     }
 
     fill_triangle = (x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, color: number) => {

@@ -85,7 +85,6 @@ export class Sample {
     }
 }
 
-
 export class Correlation {
     sample: Sample
 
@@ -103,6 +102,36 @@ export class Correlation {
             sum += xz[i]*yz[i];
         }
 
-        return sum/len;
+        return Math.round(sum*100/len)/100;
+    }
+}
+
+export class Regression {
+    sample: Sample
+
+    constructor(sample: Sample) {
+        this.sample = sample;
+    }
+
+    get_line = (x_key: string, y_key: string) => {
+        // y = m*x+c
+        const x_mean = this.sample.get_mean(x_key);
+        const y_mean = this.sample.get_mean(y_key);
+        const len = this.sample.people.length;
+        if (len < 2) return { "m": 0 , "c": 0 };
+        // calculate m, coefficient
+        let sum_dev_product = 0;
+        let ss = 0;
+        for (const p of this.sample.people) {
+            sum_dev_product += (p.variables[x_key]-x_mean)*(p.variables[y_key]-y_mean);
+            const dev = p.variables[x_key]-x_mean;
+            ss += dev*dev;
+        }
+        const m = sum_dev_product/ss;
+
+        // calculate c, constant
+        const c = y_mean-m*x_mean;
+
+        return { "m": Math.round(m*100)/100, "c": Math.round(c*100)/100 };
     }
 }
