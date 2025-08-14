@@ -8,7 +8,8 @@ export class Aldrin_Canvas {
 export class Aldrin_Light {
     constructor() {
         this.load_wasm = async (wasm_url, env = {}) => {
-            this.wasm = await WebAssembly.instantiateStreaming(fetch(wasm_url), { env: Object.assign(Object.assign({}, aldrin_light_env), env) });
+            const abs_url = new URL(wasm_url, import.meta.url);
+            this.wasm = await WebAssembly.instantiateStreaming(fetch(abs_url), { env: Object.assign(Object.assign({}, aldrin_light_env), env) });
             this.exports_ = this.wasm.instance.exports;
             this.ac = this.exports_.ac;
             this.width = this.get_width();

@@ -32,8 +32,9 @@ export class Aldrin_Light {
     }
 
     load_wasm = async (wasm_url: string, env={}) => {
+        const abs_url = new URL(wasm_url, import.meta.url);
         this.wasm = await WebAssembly.instantiateStreaming(
-            fetch(wasm_url),
+            fetch(abs_url),
             { env: { ...aldrin_light_env, ...env } }
         );
         this.exports_ = this.wasm.instance.exports as unknown as Aldrin_Light_Exports;

@@ -9,7 +9,7 @@ canvas.height = HEIGHT;
 // aldrin light wasm setup
 const aldrin_light = new Aldrin_Light();
 window.onload = async () => {
-    await aldrin_light.load_wasm("/wasm/aldrin-light.wasm");
+    await aldrin_light.load_wasm("../wasm/aldrin-light.wasm");
     aldrin_light.set_canvas(canvas);
     clear();
 };
